@@ -5,12 +5,12 @@ A v-model analogue for React.
 Tired of defining handleChange() functions? Here's solution, react-model.
 
 ```
-npm i react-model
+npm i react-model-controller
 ```
 
 Usage:
 ```jsx
-import Model from 'react-model'
+import Model from 'react-model-controller'
 
 constructor (props) {
   ...
