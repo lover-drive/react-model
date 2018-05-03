@@ -7,7 +7,11 @@ export default class Model {
 
   onChange (_event) {
     let _newState = {}
-    _newState[this.name] = _event
+    if (!_event.target) {
+      _newState[this.name] = _event
+    } else {
+      _newState[this.name] = _event.target.value
+    }
     this.target.setState(_newState)
   }
 
