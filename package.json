@@ -4,7 +4,8 @@
   "description": "v-model analogue for ReactJS",
   "main": "ReactModel.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc mocha --require ts-node/register ./test/**/*",
+    "compile": "tsc"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,15 @@
   },
   "homepage": "https://github.com/lover-drive/react-model#readme",
   "devDependencies": {
-    "jest": "^22.4.3"
-  }
+    "@types/node": "^9.6.6",
+    "chai": "^4.1.2",
+    "del": "^3.0.0",
+    "mocha": "^5.1.1",
+    "nyc": "^11.7.1",
+    "source-map-support": "^0.5.5",
+    "ts-node": "^6.0.0",
+    "typescript": "^2.8.3",
+    "typescript.events": "^7.9.0"
+  },
+  "dependencies": {}
 }
