@@ -17,6 +17,11 @@ export default class Model {
     this.target = _target
     this.name = _name
     this.onChange = this.onChange.bind(this)
+
+    
+    Object.defineProperty(this, 'value', {
+      get: this.getValue.bind.this()
+    })
   }
 
   onChange (_event) {
@@ -27,9 +32,10 @@ export default class Model {
       _newState[this.name] = _event.target.value
     }
     this.target.setState(_newState)
+    console.log(instanceof _event)
   }
 
-  get value () {
+  getValue () {
     return this.target.state[this.name]
   }
 }
