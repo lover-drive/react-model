@@ -13,15 +13,14 @@ export default class Model {
     }
   }
 
-  constructor (_target, _name) {
-    this.target = _target
-    this.name = _name
+  constructor ({
+    target,
+    name
+  }) {
+    this.target = target
+    this.name = name
+    this.isValid = true
     this.onChange = this.onChange.bind(this)
-
-    
-    Object.defineProperty(this, 'value', {
-      get: this.getValue.bind.this()
-    })
   }
 
   onChange (_event) {
@@ -32,9 +31,10 @@ export default class Model {
       _newState[this.name] = _event.target.value
     }
     this.target.setState(_newState)
+    console.log(_event instanceof Proxy)
   }
 
-  getValue () {
+  get value () {
     return this.target.state[this.name]
   }
 }
