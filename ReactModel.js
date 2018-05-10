@@ -1,4 +1,18 @@
 export default class Model {
+  static handleChange (_target) {
+    return (_name) => {
+      return (_value) => {
+        //let _newState = {}
+        // if (!.target) {
+        //   _newState[this.name] = _event
+        // } else {
+        //   _newState[this.name] = _event.target.value
+        // }
+        // this.target.setState(_newState)
+      }
+    }
+  }
+
   constructor (_target, _name) {
     this.target = _target
     this.name = _name
