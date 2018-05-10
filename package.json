@@ -1,8 +1,9 @@
 {
   "name": "react-model-controller",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "v-model analogue for ReactJS",
-  "main": "ReactModel.js",
+  "main": "./dist/ReactModelController.js",
+  "typinga": "./dist/ReactModelController.d.ts",
   "scripts": {
     "test": "nyc mocha --require ts-node/register ./test/**/*",
     "compile": "tsc"
