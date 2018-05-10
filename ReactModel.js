@@ -32,7 +32,6 @@ export default class Model {
       _newState[this.name] = _event.target.value
     }
     this.target.setState(_newState)
-    console.log(instanceof _event)
   }
 
   getValue () {
