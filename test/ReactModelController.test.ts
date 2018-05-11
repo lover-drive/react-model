@@ -75,4 +75,14 @@ describe('ReactModelController', () => {
     _model.set('dasd')
     assert(_model.get(), 'asd')
   })
+
+  it('Should return blank string if value is blank string', () => {
+    let _component: ReactComponentMock = new ReactComponentMock()
+    let _model = new Model({
+      target: _component,
+      name: 'test_model',
+      mask: /a.+/
+    })
+    assert(_model.get() === '', true)
+  })
 })

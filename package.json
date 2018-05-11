@@ -1,6 +1,6 @@
 {
   "name": "react-model-controller",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "v-model analogue for ReactJS",
   "main": "./dist/ReactModelController.js",
   "typinga": "./dist/ReactModelController.d.ts",

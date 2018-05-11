@@ -46,7 +46,10 @@ class ReactModelController {
   
   public get () {
     if (typeof this.target.state[this.name] === 'string') {
-      return this.target.state[this.name].match(this.mask)[0]
+      if (this.target.state[this.name].match(this.mask)) {
+        return this.target.state[this.name].match(this.mask)[0]
+      }
+      return this.target.state[this.name]
     }
     return this.target.state[this.name]
   }
