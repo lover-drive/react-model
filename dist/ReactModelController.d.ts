@@ -3,6 +3,7 @@ declare class ReactModelController {
     private name;
     private validate;
     private mask;
+    private hasChanged;
     constructor({target, name, defaultValue, validate, mask}: {
         target: any;
         name: string;

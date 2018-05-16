@@ -7,6 +7,7 @@ var ReactModelController = /** @class */ (function () {
         this.name = name;
         this.validate = validate;
         this.mask = mask;
+        this.hasChanged = false;
         if (this.target.state == null) {
             this.target.state = {};
         }
@@ -17,12 +18,13 @@ var ReactModelController = /** @class */ (function () {
     }
     ReactModelController.prototype.set = function (_value) {
         var _newState = {};
-        if (_value.target == null) {
-            _newState[this.name] = _value;
-        }
-        else {
+        if (_value.target != null) {
             _newState[this.name] = _value.target.value;
         }
+        else {
+            _newState[this.name] = _value;
+        }
+        this.hasChanged = true;
         this.target.setState(_newState);
     };
     ReactModelController.prototype.get = function () {
@@ -36,6 +38,9 @@ var ReactModelController = /** @class */ (function () {
     };
     Object.defineProperty(ReactModelController.prototype, "isValid", {
         get: function () {
+            if (!this.hasChanged) {
+                return true;
+            }
             return this.validate(this.get());
         },
         enumerable: true,
