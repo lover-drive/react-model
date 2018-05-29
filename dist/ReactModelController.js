@@ -1,4 +1,5 @@
 "use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 class ReactModelController {
     static create({ target, name, defaultValue, validate, mask }) {
@@ -23,18 +24,17 @@ class ReactModelController {
         this.get = this.get.bind(this);
     }
     set(value = x => x) {
-        const maskString = (v, mask) => (typeof v === 'string')
-            ? v.split('').reduce((accumulator, char) => {
-                for (let i = 0; i < accumulator.length; i++) {
-                    if (accumulator[i] === '*') {
-                        accumulator[i] = char;
-                        break;
-                    }
+        const maskString = (v, mask) => typeof v === 'string' ? v.split('').reduce((accumulator, char, index) => {
+            for (let i = 0; i < accumulator.length; i++) {
+                if (accumulator[i] === '*') {
+                    accumulator[i] = char;
+                    break;
                 }
-                return accumulator;
-            }, mask.split('')).join('')
-            : v;
-        return (event) => {
+            }
+            if (index >= v.length - 1) return accumulator.splice(0, accumulator.lastIndexOf(v[v.length - 1]) + 1);
+            return accumulator;
+        }, (mask + v.substring(mask.length, Math.max(v.length, mask.length))).split('')).join('') : v;
+        return event => {
             this.target.setState({
                 [this.name]: maskString(value(event), this.mask)
             });

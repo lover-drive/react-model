@@ -1,4 +1,5 @@
 "use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 const mocha = require('mocha');
 const describe = mocha.describe;
@@ -50,11 +51,12 @@ describe('ReactModelController', () => {
             let model = ReactModelController_1.default.create({
                 target: component,
                 name: 'testmodel',
-                validate: (value) => {
+                validate: value => {
                     return value[0] === 'a';
                 }
             });
             model.set()('asd');
+            console.log(model.get());
             assert(model.isValid);
         });
         it('.isValid should return false if it is not valid', () => {
@@ -62,7 +64,7 @@ describe('ReactModelController', () => {
             let model = ReactModelController_1.default.create({
                 target: component,
                 name: 'testmodel',
-                validate: (value) => {
+                validate: value => {
                     return value[0] === 'a';
                 }
             });
@@ -79,6 +81,16 @@ describe('ReactModelController', () => {
             model.set()('1234432112344321');
             assert.equal(model.get(), '1234 4321 1234 4321');
         });
+        it('Should automatically mask input by regex mask as you input', () => {
+            let component = new ReactComponentMock();
+            let model = ReactModelController_1.default.create({
+                target: component,
+                name: 'testmodel',
+                mask: '**** **** **** ****'
+            });
+            model.set()('123443211234');
+            assert.equal(model.get(), '1234 4321 1234');
+        });
         it('Should return blank string if value is blank string', () => {
             let component = new ReactComponentMock();
             let model = ReactModelController_1.default.create({
@@ -90,11 +102,11 @@ describe('ReactModelController', () => {
     });
     describe('.linkState()', () => {
         it('Should create an object that defines .value and .onChange', () => {
-            let link = ReactModelController_1.default.linkState(ReactModelController_1.default.create({
+            let model = ReactModelController_1.default.create({
                 target: {},
                 name: 'test-model'
-            }));
-            assert.hasAllKeys(link, ['value', 'onChange']);
+            });
+            assert.hasAllKeys(model.link, ['value', 'onChange']);
         });
     });
 });

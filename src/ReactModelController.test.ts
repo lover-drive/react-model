@@ -65,6 +65,7 @@ describe('ReactModelController', () => {
         }
       })
       model.set()('asd')
+      console.log(model.get())
       assert(model.isValid)
     })
 
@@ -91,6 +92,17 @@ describe('ReactModelController', () => {
       model.set()('1234432112344321')
       assert.equal(model.get(), '1234 4321 1234 4321')
     })
+
+    it('Should automatically mask input by regex mask as you input', () => {
+      let component: ReactComponentMock = new ReactComponentMock()
+      let model = Model.create({
+        target: component,
+        name: 'testmodel',
+        mask: '**** **** **** ****'
+      })
+      model.set()('123443211234')
+      assert.equal(model.get(), '1234 4321 1234')
+    })
     
     it('Should return blank string if value is blank string', () => {
       let component: ReactComponentMock = new ReactComponentMock()
@@ -104,11 +116,11 @@ describe('ReactModelController', () => {
 
   describe('.linkState()', () => {
     it('Should create an object that defines .value and .onChange', () => {
-      let link = Model.linkState(Model.create({
+      let model = Model.create({
         target: {},
         name: 'test-model'
-      }))
-      assert.hasAllKeys(link, ['value', 'onChange'])
+      })
+      assert.hasAllKeys(model.link, ['value', 'onChange'])
     })
   })
 })
