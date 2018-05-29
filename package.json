@@ -3,11 +3,11 @@
   "version": "1.7.0",
   "description": "v-model analogue for ReactJS",
   "main": "./dist/ReactModelController.js",
-  "typinga": "./dist/ReactModelController.d.ts",
+  "typings": "./dist/ReactModelController.d.ts",
   "scripts": {
-    "test": "nyc mocha --require ts-node/register ./test/**/*",
-    "compile": "tsc",
-    "version": "git add -A dist"
+    "compile": "tsc && babel dist -d dist",
+    "test": "npm run compile && nyc mocha ./dist/**/*.test.js",
+    "preversion": "git add -A"
   },
   "repository": {
     "type": "git",
@@ -27,9 +27,10 @@
   },
   "homepage": "https://github.com/lover-drive/react-model#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "@types/node": "^9.6.6",
     "chai": "^4.1.2",
-    "del": "^3.0.0",
     "mocha": "^5.1.1",
     "nyc": "^11.7.1",
     "source-map-support": "^0.5.5",

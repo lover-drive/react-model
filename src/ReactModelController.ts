@@ -2,20 +2,42 @@ class ReactModelController {
   private target: any
   private name: string
   private validate: Function
-  private mask: RegExp
+  private mask: string
+
+  public static create ({
+    target,
+    name,
+    defaultValue,
+    validate,
+    mask
+  }: {
+    target: any,
+    name: string,
+    defaultValue?: any,
+    validate?: Function,
+    mask?: string
+  }) {
+    return new ReactModelController({
+      target: target,
+      name: name,
+      defaultValue: defaultValue,
+      validate: validate,
+      mask: mask
+    })
+  }
 
   constructor ({
     target,
     name,
     defaultValue = '',
     validate = () => true,
-    mask = /.+/
+    mask = '*'
   }: {
     target: any,
     name: string,
     defaultValue?: any,
     validate?: Function,
-    mask?: RegExp
+    mask?: string
   }) {
     this.target = target
     this.name = name
@@ -27,41 +49,53 @@ class ReactModelController {
     }
     this.target.state[this.name] = defaultValue
 
-    this.onChange = this.onChange.bind(this)
     this.set = this.set.bind(this)
     this.get = this.get.bind(this)
   }
 
-  public set (_value) {
-    let _newState: any = {}
-    
-    if (_value.target == null) {
-      _newState[this.name] = _value
-    } else {
-    _newState[this.name] = _value.target.value
+  public set (value: Function = x => x) {
+    const maskString = (v: string, mask: string) => 
+      (typeof v === 'string')
+      ? v.split('').reduce(
+          (accumulator: string[], char) => {
+            for (let i = 0; i < accumulator.length; i++) {
+              if (accumulator[i] === '*') {
+                accumulator[i] = char
+                break
+              }
+            }
+            return accumulator
+          },
+          mask.split('')
+        ).join('')
+      : v
+
+    return (event) => {
+      this.target.setState({
+        [this.name]: maskString(value(event), this.mask)
+      })
     }
-    
-    this.target.setState(_newState)
   }
   
   public get () {
-    if (typeof this.target.state[this.name] === 'string') {
-      if (this.target.state[this.name].match(this.mask)) {
-        return this.target.state[this.name].match(this.mask)[0]
-      }
-      return this.target.state[this.name]
-    }
     return this.target.state[this.name]
   }
 
   public get isValid () {
     return this.validate(this.get())
   }
+
+  public get link () {
+    return {
+      value: this.get(),
+      onChange: this.set()
+    }
+  }
   
   // Deprecated stuff
-  public onChange (_value) {
+  get onChange () {
     console.log('ReactModelController.onChange() is deprecated. Use set() instead.')
-    this.set(_value)
+    return this.set()
   }
   
   get value () {

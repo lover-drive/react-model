@@ -3,18 +3,28 @@ declare class ReactModelController {
     private name;
     private validate;
     private mask;
-    private hasChanged;
+    static create({target, name, defaultValue, validate, mask}: {
+        target: any;
+        name: string;
+        defaultValue?: any;
+        validate?: Function;
+        mask?: string;
+    }): ReactModelController;
     constructor({target, name, defaultValue, validate, mask}: {
         target: any;
         name: string;
         defaultValue?: any;
         validate?: Function;
-        mask?: RegExp;
+        mask?: string;
     });
-    set(_value: any): void;
+    set(value?: Function): (event: any) => void;
     get(): any;
     readonly isValid: any;
-    onChange(_value: any): void;
+    readonly link: {
+        value: any;
+        onChange: (event: any) => void;
+    };
+    readonly onChange: (event: any) => void;
     readonly value: any;
 }
 export default ReactModelController;
