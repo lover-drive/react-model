@@ -11,7 +11,7 @@ class ReactModelController {
             mask: mask
         });
     }
-    constructor({ target, name, defaultValue = '', validate = () => true, mask = '*' }) {
+    constructor({ target, name, defaultValue = '', validate = () => true, mask = '' }) {
         this.target = target;
         this.name = name;
         this.validate = validate;
@@ -24,7 +24,7 @@ class ReactModelController {
         this.get = this.get.bind(this);
     }
     set(value = x => x) {
-        const maskString = (v, mask) => typeof v === 'string' ? v.split('').reduce((accumulator, char, index) => {
+        const maskString = (v, mask) => typeof v === 'string' && mask.length ? v.split('').reduce((accumulator, char, index) => {
             for (let i = 0; i < accumulator.length; i++) {
                 if (accumulator[i] === '*') {
                     accumulator[i] = char;
@@ -33,7 +33,7 @@ class ReactModelController {
             }
             if (index >= v.length - 1) return accumulator.splice(0, accumulator.lastIndexOf(v[v.length - 1]) + 1);
             return accumulator;
-        }, (mask + v.substring(mask.length, Math.max(v.length, mask.length))).split('')).join('') : v;
+        }, mask.split('')).join('') : v;
         return event => {
             this.target.setState({
                 [this.name]: maskString(value(event), this.mask)

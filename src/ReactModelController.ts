@@ -31,7 +31,7 @@ class ReactModelController {
     name,
     defaultValue = '',
     validate = () => true,
-    mask = '*'
+    mask = ''
   }: {
     target: any,
     name: string,
@@ -55,7 +55,7 @@ class ReactModelController {
 
   public set (value: Function = x => x) {
     const maskString = (v: string, mask: string) => 
-      (typeof v === 'string')
+      (typeof v === 'string' && mask.length)
       ? v.split('').reduce(
           (accumulator: string[], char, index) => {
             for (let i = 0; i < accumulator.length; i++) {
