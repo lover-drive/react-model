@@ -57,18 +57,19 @@ class ReactModelController {
     const maskString = (v: string, mask: string) => 
       (typeof v === 'string' && mask.length)
       ? v.split('').reduce(
-          (accumulator: string[], char, index) => {
-            for (let i = 0; i < accumulator.length; i++) {
-              if (accumulator[i] === '*') {
-                accumulator[i] = char
-                break
-              }
+          (accumulator, char, index) => {
+            let first = (char !== mask[index]) ? accumulator.mask.indexOf('*') : 0
+            return {
+              result: accumulator.result
+                       + accumulator.mask.substring(0, first)
+                       + char,
+              mask: accumulator.mask.substr(first + 1)
             }
-            if (index >= v.length - 1) return accumulator.splice(0, accumulator.lastIndexOf(v[v.length - 1]) + 1)
-            return accumulator
-          },
-          mask.split('')
-        ).join('')
+          }, {
+            result: '',
+            mask: mask
+          }
+        ).result
       : v
 
     return (event) => {

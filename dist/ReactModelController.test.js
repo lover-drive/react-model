@@ -88,8 +88,14 @@ describe('ReactModelController', () => {
                 name: 'testmodel',
                 mask: '**** **** **** ****'
             });
-            model.set()('123443211234');
-            assert.equal(model.get(), '1234 4321 1234');
+            model.set()('1');
+            model.set()(model.get() + '2');
+            model.set()(model.get() + '3');
+            model.set()(model.get() + '4');
+            model.set()(model.get() + '5');
+            model.set()(model.get() + '6');
+            model.set()(model.get() + '7');
+            assert.equal(model.get(), '1234 567');
         });
         it('Should return blank string if value is blank string', () => {
             let component = new ReactComponentMock();

@@ -25,15 +25,15 @@ class ReactModelController {
     }
     set(value = x => x) {
         const maskString = (v, mask) => typeof v === 'string' && mask.length ? v.split('').reduce((accumulator, char, index) => {
-            for (let i = 0; i < accumulator.length; i++) {
-                if (accumulator[i] === '*') {
-                    accumulator[i] = char;
-                    break;
-                }
-            }
-            if (index >= v.length - 1) return accumulator.splice(0, accumulator.lastIndexOf(v[v.length - 1]) + 1);
-            return accumulator;
-        }, mask.split('')).join('') : v;
+            let first = char !== mask[index] ? accumulator.mask.indexOf('*') : 0;
+            return {
+                result: accumulator.result + accumulator.mask.substring(0, first) + char,
+                mask: accumulator.mask.substr(first + 1)
+            };
+        }, {
+            result: '',
+            mask: mask
+        }).result : v;
         return event => {
             this.target.setState({
                 [this.name]: maskString(value(event), this.mask)
