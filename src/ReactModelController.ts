@@ -67,7 +67,7 @@ class ReactModelController {
             if (index >= v.length - 1) return accumulator.splice(0, accumulator.lastIndexOf(v[v.length - 1]) + 1)
             return accumulator
           },
-          (mask + v.substring(mask.length, Math.max(v.length, mask.length))).split('')
+          mask.split('')
         ).join('')
       : v
 
